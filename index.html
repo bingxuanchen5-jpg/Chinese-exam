@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>高中專業國文模擬測驗</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Noto Sans TC", sans-serif;
+            background-color: #f5f5f5;
+            padding: 10px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header {
+            background: linear-gradient(135deg, #a8c0ff 0%, #392b58 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        .header p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+        .section-title {
+            background-color: #4a4e69;
+            color: white;
+            padding: 12px 15px;
+            margin: 25px 0 15px 0;
+            border-radius: 6px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .question-card {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-left: 4px solid #4a4e69;
+        }
+        .question-num {
+            font-weight: bold;
+            color: #4a4e69;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        .question-text {
+            font-size: 1em;
+            margin-bottom: 12px;
+            color: #202124;
+        }
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .option-btn {
+            background-color: #f8f9fa;
+            border: 1.5px solid #dadce0;
+            padding: 12px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            text-align: left;
+            transition: all 0.2s;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+            line-height: 1.5;
+        }
+        .option-btn:active {
+            background-color: #e8eaed;
+        }
+        /* 多選題選中狀態 */
+        .option-btn.selected {
+            background-color: #e0f2f7;
+            border-color: #007bff;
+            color: #007bff;
+        }
+        .option-btn.selected-correct {
+            background-color: #e6f4ea;
+            border-color: #34a853;
+            color: #137333;
+            font-weight: bold;
+        }
+        .option-btn.selected-wrong {
+            background-color: #fce8e6;
+            border-color: #d93025;
+            color: #a50e0e;
+        }
+        .option-btn.show-correct {
+            background-color: #e6f4ea;
+            border-color: #34a853;
+            color: #137333;
+        }
+        .feedback-msg {
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .feedback-msg.correct {
+            color: #34a853;
+        }
+        .feedback-msg.wrong {
+            color: #d93025;
+        }
+        .toggle-explanation {
+            background-color: #4a4e69;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            margin-top: 8px;
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .toggle-explanation:active {
+            background-color: #33364f;
+        }
+        .explanation {
+            display: none;
+            background-color: #f0f2f5;
+            border-left: 4px solid #4a4e69;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        .explanation.show {
+            display: block;
+        }
+        .explanation-title {
+            font-weight: bold;
+            color: #4a4e69;
+            margin-bottom: 8px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #5f6368;
+            font-size: 0.85em;
+        }
+        .multi-choice-instruction {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>高中專業國文模擬測驗</h1>
+    <p>嚴格且具鑑別度，著重文意深層辯證、字義精確辨析與跨文本比較分析</p>
+</div>
+
+<div class="section-title">單選題 (30 題)</div>
+
+<div class="question-card">
+    <div class="question-num">1. 字形音義：《蘭亭集序》「會稽」</div>
+    <div class="question-text">《蘭亭集序》開篇提及「永和九年，歲在癸丑，暮春之初，會于會稽山陰之蘭亭」。句中「會稽」的正確讀音為何？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. ㄏㄨㄟˋ ㄐㄧ</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. ㄎㄨㄞˋ ㄐㄧ</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. ㄍㄨㄟˋ ㄐㄧ</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. ㄏㄨㄟˋ ㄑㄧˊ</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 「會稽」為古地名，根據教育部國語辭典，正確讀音為「ㄍㄨㄟˋ ㄐㄧ」。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 「會」字常見讀音，但在此為古地名特殊讀音。</li>
+            <li><strong>(B)</strong> 這是「會稽」的舊讀音，現已不常用。</li>
+            <li><strong>(D)</strong> 「稽」字無此讀音。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">2. 字形音義：《蘭亭集序》「修禊」</div>
+    <div class="question-text">《蘭亭集序》中「修禊事也」的「禊」字，其字義最接近下列何者？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 祭祀</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 沐浴</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 宴飲</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 祈福</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 「禊」指古代一種在水邊舉行的祭祀活動，主要目的是洗滌身體，去除不祥，故字義最接近「沐浴」。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 禊事雖為祭祀活動，但其核心動作是沐浴。</li>
+            <li><strong>(C)</strong> 宴飲是禊事的一部分，但非「禊」字本義。</li>
+            <li><strong>(D)</strong> 祈福是禊事的目的之一，但非「禊」字本義。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">3. 字形音義：《蘭亭集序》「流觴」</div>
+    <div class="question-text">《蘭亭集序》中「引以為流觴曲水」的「觴」字，其字義為何？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">A. 酒杯</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">B. 宴席</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">C. 歌舞</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">D. 詩歌</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：A</div>
+        <p><strong>解析：</strong> 「觴」指酒杯。「流觴曲水」即將酒杯置於水上，任其漂流，停在誰面前誰就飲酒作詩。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(B)</strong> 宴席是活動的整體，非「觴」字本義。</li>
+            <li><strong>(C)</strong> 歌舞是宴席的內容，非「觴」字本義。</li>
+            <li><strong>(D)</strong> 詩歌是活動的產物，非「觴」字本義。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">4. 字形音義：《蘭亭集序》「信可樂也」</div>
+    <div class="question-text">《蘭亭集序》中「亦足以暢敘幽情，信可樂也」的「信」字，其字義最接近下列何者？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 相信</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 確實</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 誠實</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 書信</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 「信」在此處作副詞，表示「確實、的確」。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 「相信」是動詞，語法不符。</li>
+            <li><strong>(C)</strong> 「誠實」是形容詞，語法不符。</li>
+            <li><strong>(D)</strong> 「書信」是名詞，語法不符。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">5. 字形音義：《勞山道士》「驀然而踣」</div>
+    <div class="question-text">《勞山道士》中「驀然而踣」的「踣」字，其字義為何？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">A. 跌倒</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">B. 站立</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">C. 奔跑</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">D. 驚訝</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：A</div>
+        <p><strong>解析：</strong> 「踣」指跌倒、仆倒。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(B)</strong> 與「跌倒」意義相反。</li>
+            <li><strong>(C)</strong> 與「跌倒」意義無關。</li>
+            <li><strong>(D)</strong> 「驀然」有驚訝之意，但「踣」字本身無此義。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">6. 字形音義：《勞山道士》「疢毒」</div>
+    <div class="question-text">《勞山道士》中「恐遭疢毒」的「疢毒」一詞，其字義最接近下列何者？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">A. 疾病</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">B. 毒藥</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">C. 災禍</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 0)">D. 痛苦</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：A</div>
+        <p><strong>解析：</strong> 「疢」指熱病，「毒」指惡疾，故「疢毒」泛指疾病。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(B)</strong> 雖有「毒」字，但「疢毒」是疾病，非毒藥。</li>
+            <li><strong>(C)</strong> 疾病可能帶來災禍，但「疢毒」本義是疾病。</li>
+            <li><strong>(D)</strong> 疾病會帶來痛苦，但「疢毒」本義是疾病。</li>
+        </ul>
+    </div>
+</div>
+  <div class="question-card">
+    <div class="question-num">7. 字形音義：《勞山道士》「吮癰舐痔」</div>
+    <div class="question-text">《勞山道士》中「吮癰舐痔」一詞，用來形容王生何種心態？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 勤奮好學</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 趨炎附勢</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 堅忍不拔</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 樂於助人</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 「吮癰舐痔」比喻卑鄙地奉承權貴，形容王生為求仙術不擇手段、趨炎附勢的心態。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 王生好逸惡勞，非勤奮好學。</li>
+            <li><strong>(C)</strong> 王生遇到困難即退縮，非堅忍不拔。</li>
+            <li><strong>(D)</strong> 王生自私自利，非樂於助人。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">8. 語文常識：《聊齋誌異》文體特色</div>
+    <div class="question-text">關於蒲松齡《聊齋誌異》的文體特色，下列敘述何者正確？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 屬於長篇章回小說，情節曲折複雜。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 屬於白話短篇小說，反映社會現實。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 屬於文言短篇小說，富含神怪色彩與諷刺寓意。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 屬於筆記小說，以隨筆形式記錄奇聞軼事。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 《聊齋誌異》是清代蒲松齡所著的文言短篇小說集，內容多為狐鬼花妖、神仙道士，藉此諷刺社會現實。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 《聊齋誌異》是短篇小說，非長篇章回小說。</li>
+            <li><strong>(B)</strong> 《聊齋誌異》是文言小說，非白話小說。</li>
+            <li><strong>(D)</strong> 雖有筆記小說的性質，但其文學性與結構更接近文言短篇小說。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">9. 語文常識：《蘭亭集序》文學史地位</div>
+    <div class="question-text">王羲之《蘭亭集序》在文學史與藝術史上的地位，下列敘述何者最為恰當？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 開創了唐代古文運動的先河，影響深遠。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 奠定了魏晉玄學思想的基礎，為哲學名篇。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 為魏晉時期山水遊記散文的代表作，並被譽為「天下第一行書」。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 展現了盛唐詩歌的豪邁氣象，對後世詩人影響甚鉅。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 《蘭亭集序》是魏晉時期山水遊記散文的代表作，其書法藝術更是被譽為「天下第一行書」。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 唐代古文運動由韓愈、柳宗元等人開創。</li>
+            <li><strong>(B)</strong> 《蘭亭集序》雖有哲學思考，但非玄學名篇。</li>
+            <li><strong>(D)</strong> 《蘭亭集序》是散文，非唐詩。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">10. 語文常識：序跋類文體比較</div>
+    <div class="question-text">《蘭亭集序》與《畫菊自序》皆為「序」體文，關於兩者序文性質的比較，下列敘述何者正確？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 兩者皆為為他人作品作序，表達推崇之意。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 《蘭亭集序》為詩集序，《畫菊自序》為書畫序，性質不同。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 兩者皆為作者自序，闡述創作理念與心境。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 《蘭亭集序》重在抒發個人情感，《畫菊自序》重在記敘事件。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 《蘭亭集序》是王羲之為蘭亭雅集所作詩集而寫的序文；《畫菊自序》是張李德和為自己的畫菊作品集所寫的序文，兩者序文性質不同。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 《蘭亭集序》是為眾人詩作作序，而《畫菊自序》是為自己作品作序。</li>
+            <li><strong>(C)</strong> 《蘭亭集序》是為詩集作序，非作者自序；《畫菊自序》是自序。</li>
+            <li><strong>(D)</strong> 兩者皆有抒發情感與記敘事件，但側重點不同，且此選項未能點出序文性質的根本差異。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">11. 作者背景：張李德和</div>
+    <div class="question-text">關於張李德和身為臺灣日治時期女性文人的特殊處境與自我期許，下列敘述何者最為恰當？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 她積極參與政治運動，以文學作為反抗殖民統治的工具。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 她在傳統禮教束縛下，透過詩畫創作展現女性的才華與自主意識。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 她主張女性應走出家庭，投身社會改革，爭取兩性平權。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 她以白話文創作，致力於推動臺灣新文學運動的發展。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 張李德和在日治時期傳統社會中，透過詩畫創作展現其才華與對自我價值的追求，體現了女性在困境中的自主意識。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 張李德和主要透過藝文活動展現自我，較少直接參與政治運動。</li>
+            <li><strong>(C)</strong> 她的自主意識更多體現在個人精神層面，而非直接的社會改革主張。</li>
+            <li><strong>(D)</strong> 她主要以古典詩文創作，非白話文。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">12. 作者背景：黃美秀</div>
+    <div class="question-text">黃美秀《尋熊記》的自然書寫特色與其生態保育觀念，下列敘述何者最能體現？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 強調人類中心主義，認為自然資源應為人類所用。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 以客觀科學數據為主，避免個人情感的介入。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 透過親身經歷與細膩觀察，呼籲大眾關注臺灣黑熊的生存困境與棲地保護。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 批判原住民文化對野生動物的獵捕行為，主張全面禁止。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 黃美秀以其親身研究經歷，透過感性的筆觸與科學的嚴謹，喚起社會對臺灣黑熊保育的重視。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 黃美秀的書寫強調生態平衡與物種共存，非人類中心主義。</li>
+            <li><strong>(B)</strong> 她的書寫融合科學與感性，充滿個人情感。</li>
+            <li><strong>(D)</strong> 她理解原住民文化，並致力於協調保育與傳統文化。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">13. 作者背景：王羲之與莊子思想</div>
+    <div class="question-text">王羲之在《蘭亭集序》中對莊子「一死生、齊彭殤」思想的批判，主要體現在何處？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 肯定人生短暫，應及時行樂，追求感官刺激。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 認為生死有命，富貴在天，無需過多憂慮。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 雖知生死為自然之理，仍對生命之有限感到悲痛與無奈。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 批判莊子思想過於消極，主張積極入世，建功立業。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 王羲之雖理解莊子「一死生、齊彭殤」的道理，但面對生命終將消逝的現實，仍無法擺脫個人的悲痛與感傷，體現了其對莊子思想的「有保留」的批判。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 王羲之雖有及時行樂之情，但其悲痛之情更深。</li>
+            <li><strong>(B)</strong> 王羲之的悲痛正是對生死無常的無奈，而非無需憂慮。</li>
+            <li><strong>(D)</strong> 王羲之並非主張積極入世，而是對生命有限的感傷。</li>
+        </ul>
+    </div>
+</div>
+<div class="question-card">
+    <div class="question-num">14. 文意理解：《勞山道士》王生心理轉折</div>
+    <div class="question-text">《勞山道士》中，王生在學道過程中，其心理轉折最能反映作者何種諷刺寓意？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 從虔誠求道到最終得道成仙，諷刺世人對修行的誤解。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 從好逸惡勞到勤奮刻苦，諷刺世人對成功的急功近利。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 從心術不正到自食惡果，諷刺世人投機取巧、不勞而獲的妄想。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 從懷疑仙術到深信不疑，諷刺世人盲目迷信的愚昧。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 王生好逸惡勞，只想學得仙術以圖便利，最終因心術不正而自食惡果，反映了作者對世人投機取巧、不勞而獲的諷刺。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 王生並未得道成仙。</li>
+            <li><strong>(B)</strong> 王生始終好逸惡勞，並未勤奮刻苦。</li>
+            <li><strong>(D)</strong> 王生從頭到尾都想學仙術，只是方法不對，並非從懷疑到深信。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">15. 文意理解：《蘭亭集序》情感脈絡</div>
+    <div class="question-text">《蘭亭集序》的情感脈絡，由「樂」轉「痛」再轉「悲」的關鍵轉折點為何？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 3)">A. 從「仰觀宇宙之大，俯察品類之盛」到「夫人之相與，俯仰一世」。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 3)">B. 從「信可樂也」到「及其所之既倦，情隨事遷」。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 3)">C. 從「固知一死生為虛誕，齊彭殤為妄作」到「後之視今，亦猶今之視昔」。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 3)">D. 從「脩短隨化，終期於盡」到「豈不痛哉」。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：D</div>
+        <p><strong>解析：</strong> 情感由「樂」轉「痛」再轉「悲」的關鍵在於對生命有限的體悟，即「脩短隨化，終期於盡」的無奈，最終引發「豈不痛哉」的悲嘆。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 這是對自然景物的描寫，尚未觸及深層情感轉折。</li>
+            <li><strong>(B)</strong> 這是情感變化的原因，但非直接的轉折點。</li>
+            <li><strong>(C)</strong> 這是對莊子思想的批判，但「豈不痛哉」才是悲痛的直接表達。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">16. 文意理解：《畫菊自序》菊花象徵</div>
+    <div class="question-text">張李德和《畫菊自序》中，「菊花」的象徵意義與女性自覺的連結，下列敘述何者最為貼切？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 菊花的孤高自賞，象徵女性不願與世俗同流合污的清高。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 菊花的傲霜獨立，象徵女性在困境中堅韌不拔、追求自我價值的精神。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 菊花的淡雅芬芳，象徵女性溫柔婉約、賢淑持家的美德。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 菊花的多元色彩，象徵女性豐富多變的內在情感。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 菊花在秋霜中依然盛開，象徵著堅韌不拔、不畏艱難的品格，張李德和藉此自況，表達女性在傳統束縛下追求自我實現的自主意識。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 雖有清高之意，但「傲霜獨立」的堅韌更符合女性自覺的連結。</li>
+            <li><strong>(C)</strong> 菊花的象徵意義更偏向堅毅，而非傳統的溫柔婉約。</li>
+            <li><strong>(D)</strong> 菊花的色彩並非此文強調的重點。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">17. 跨文本比較：自然書寫與詠物自況</div>
+    <div class="question-text">黃美秀《尋熊記》與張李德和《畫菊自序》在表達個人志向或理念時，其筆法差異最主要體現在何處？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 前者以科學研究為基礎，後者以藝術創作自況。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 前者強調客觀紀錄，後者強調主觀抒情。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 前者透過生態保育實踐個人價值，後者透過傳統藝文展現女性自覺。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 前者以理性分析為主，後者以感性描寫為主。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 黃美秀透過投身臺灣黑熊的保育研究，實踐其對自然的關懷與個人價值；張李德和則在傳統詩畫領域中，藉由畫菊來表達其堅韌不拔的女性自覺。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 兩者皆有科學與藝術的成分，但核心差異在於實踐方式。</li>
+            <li><strong>(B)</strong> 兩者皆有客觀與主觀成分，但表達志向的筆法差異更深層。</li>
+            <li><strong>(D)</strong> 兩者皆有理性與感性，但此選項未能點出其核心差異。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">18. 跨文本比較：諷刺手法</div>
+    <div class="question-text">《勞山道士》與《尋熊記》在寫作手法上，何者運用了較為明顯的諷刺手法？其諷刺對象為何？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 《勞山道士》，諷刺世人對仙術的盲目追求。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 《尋熊記》，諷刺政府對生態保育的不力。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 《勞山道士》，諷刺王生好逸惡勞、心術不正。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 《尋熊記》，諷刺人類對自然環境的破壞。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 《勞山道士》透過王生好逸惡勞、投機取巧卻自食惡果的故事，明顯諷刺了世間那些不願腳踏實地、妄想不勞而獲的人。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 雖有此意，但更直接的諷刺對象是王生個人。</li>
+            <li><strong>(B)</strong> 《尋熊記》主要為自然書寫，以呼籲保育為主，諷刺意味不強烈。</li>
+            <li><strong>(D)</strong> 同上，主要為呼籲，非強烈諷刺。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">19. 跨文本比較：序文功能</div>
+    <div class="question-text">《蘭亭集序》與《畫菊自序》作為序文，其主要功能除了說明寫作緣由外，共同具備的深層功能為何？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 闡述作者的政治抱負與社會關懷。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 藉由敘事抒情，表達對生命、藝術或自我價值的思考。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 記錄歷史事件，為後世提供珍貴史料。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 批判時弊，針砭社會陋習。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 兩篇序文皆在敘述緣由的同時，融入了作者對生命無常的感嘆（《蘭亭集序》）、對藝術的執著與自我價值的肯定（《畫菊自序》）。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 兩者皆非主要闡述政治抱負。</li>
+            <li><strong>(C)</strong> 雖有記錄性質，但深層功能更偏向抒情與思考。</li>
+            <li><strong>(D)</strong> 兩者皆非主要批判時弊。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">20. 綜合判斷：四文本主旨</div>
+    <div class="question-text">綜合《尋熊記》、《勞山道士》、《蘭亭集序》、《畫菊自序》四篇文本，下列關於其主旨的判斷，何者最為恰當？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 皆強調人定勝天，鼓勵積極改造自然與社會。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 皆反映了作者對生命短暫的悲觀態度，勸人及時行樂。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 皆透過具體事件或描寫，傳達對生命、自然或自我價值的深刻體悟。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 皆以神怪故事或奇聞軼事為主，旨在娛樂讀者。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 四篇文本雖題材各異，但共同點在於作者透過各自的書寫，表達了對生命（《蘭亭集序》）、自然（《尋熊記》）、人性（《勞山道士》）或自我價值（《畫菊自序》）的深刻思考與體悟。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 《尋熊記》強調尊重自然，非人定勝天；《勞山道士》諷刺好逸惡勞。</li>
+            <li><strong>(B)</strong> 《蘭亭集序》雖有悲觀，但《尋熊記》和《畫菊自序》更偏向積極。</li>
+            <li><strong>(D)</strong> 僅《勞山道士》為神怪故事，且其主旨非僅娛樂。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">21. 文意理解：《蘭亭集序》情感轉折的深層原因</div>
+    <div class="question-text">《蘭亭集序》中，王羲之由宴飲之樂轉為對生命短暫的悲痛，其深層原因最主要為何？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 意識到聚會終將結束，對離別感到不捨。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 體悟到個體生命無法超越時間的限制，最終歸於虛無。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 對於政治動盪與時局不安的隱憂，藉由感嘆生命抒發。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 受到莊子「一死生、齊彭殤」思想的影響，故而看淡生死。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 王羲之在享受當下之樂後，轉而思考生命的有限性，體悟到個體生命無論長短，最終都將消逝，無法與天地同壽，這種對時間無情流逝的無奈感，是其情感轉折的深層原因。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 離別的不捨是表層原因，而非深層的哲學思考。</li>
+            <li><strong>(C)</strong> 雖處於政治動盪時期，但文章中並未直接提及，其悲痛更偏向對生命本質的感悟。</li>
+            <li><strong>(D)</strong> 王羲之對莊子思想是「有保留」的批判，他並未完全看淡生死，反而因此感到悲痛。</li>
+        </ul>
+    </div>
+</div>
+<div class="question-card">
+    <div class="question-num">22. 作者背景：王羲之對莊子「一死生、齊彭殤」的態度</div>
+    <div class="question-text">王羲之在《蘭亭集序》中提及「固知一死生為虛誕，齊彭殤為妄作」，這句話最能反映他對莊子思想的何種態度？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 完全否定，認為莊子思想是錯誤的。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 表面認同，實則內心仍無法擺脫世俗觀念。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 理性上理解其哲理，情感上卻難以超脫生命的有限性。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 藉此批判當時社會對生死觀的錯誤認知。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 王羲之理性上理解莊子「一死生、齊彭殤」的哲理，知道從宏觀角度看，生死長短並無本質差異。然而，作為一個有血有肉的個體，他仍無法擺脫對自身生命有限的悲痛與感傷，這是一種理性與情感的矛盾。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 他並非完全否定，而是「固知」，表示理性上是理解的。</li>
+            <li><strong>(B)</strong> 並非表面認同，而是理性理解，情感難以接受。</li>
+            <li><strong>(D)</strong> 批判的對象是莊子思想中過於超脫的部分，而非社會的錯誤認知。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">23. 文意理解：《勞山道士》王生學道失敗的深層原因</div>
+    <div class="question-text">《勞山道士》中，王生學道失敗的深層原因，除了好逸惡勞、心術不正外，最主要還體現了何種問題？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 缺乏天賦，不具備修仙的資質。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 對道士的法術抱持懷疑態度，不夠虔誠。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 追求仙術的動機不純，只為滿足個人私慾與虛榮。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 無法忍受修道的清苦生活，意志不堅定。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 王生學道失敗的根本原因在於其追求仙術的動機不純，他並非真心求道，而是想藉由仙術來滿足自己的私慾（如變出錢財、炫耀法術），這種功利主義的心態與道家清靜無為的宗旨背道而馳。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 文章並未強調王生缺乏天賦，而是其心性問題。</li>
+            <li><strong>(B)</strong> 王生對仙術是深信不疑的，只是想走捷徑。</li>
+            <li><strong>(D)</strong> 意志不堅定是表象，深層原因仍是動機不純。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">24. 字形音義：《勞山道士》「潔持」的深層內涵</div>
+    <div class="question-text">《勞山道士》中，道士對王生說：「耐苦即入道耳。今一月，止一來歸，非潔持耶？」句中「潔持」一詞，其深層內涵最接近下列何者？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 保持身心純潔，不受世俗污染。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 堅守清規戒律，克制一切慾望。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 專心修煉道術，不為外物所動。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 勤儉節約，過著簡樸的生活。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 「潔持」在此處的深層內涵，不僅指身體的清淨，更重要的是精神上的堅守戒律，克制世俗的誘惑與個人的慾望，尤其是王生好逸惡勞、貪圖享樂的本性，這是入道的基礎。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 雖有身心純潔之意，但「克制慾望」是更具體的行為要求。</li>
+            <li><strong>(C)</strong> 專心修煉是結果，而非「潔持」的直接內涵。</li>
+            <li><strong>(D)</strong> 勤儉節約是道家生活方式，但「潔持」更強調對慾望的控制。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">25. 作者背景：黃美秀自然書寫的獨特之處</div>
+    <div class="question-text">黃美秀《尋熊記》的自然書寫，相較於傳統的遊記或科普文章，其獨特之處最主要體現在何處？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 運用大量文學修辭，使文章更具藝術性。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 結合科學研究的嚴謹與個人情感的投入，形成獨特的「科學人文」風格。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 強調對自然景觀的客觀描繪，避免主觀情感的介入。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 以批判性的角度，揭露人類對自然的破壞與剝削。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 黃美秀的《尋熊記》不僅僅是科學報告，也不是純粹的文學創作，而是將其在野外研究臺灣黑熊的科學數據、觀察心得，與個人對生命的熱愛、對自然的關懷融為一體，形成一種兼具理性與感性的「科學人文」書寫風格。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 雖有文學性，但並非其最獨特之處，許多遊記也具文學性。</li>
+            <li><strong>(C)</strong> 黃美秀的書寫充滿個人情感，並非避免主觀情感。</li>
+            <li><strong>(D)</strong> 雖有呼籲保育的意圖，但其筆法更偏向溫和的啟發與教育，而非強烈的批判。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">26. 文意理解：《尋熊記》體現的生態倫理觀</div>
+    <div class="question-text">《尋熊記》中，黃美秀對於臺灣黑熊的描寫與其研究工作，最能體現何種生態倫理觀？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 人類是自然的主宰，有權利利用自然資源。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1
+          <div class="question-card">
+    <div class="question-num">29. 跨文本比較：寫作目的的異同</div>
+    <div class="question-text">比較《蘭亭集序》與《畫菊自序》兩篇序文，下列關於其寫作目的的異同，何者敘述最為精確？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">A. 兩者皆為為他人作品作序，但《蘭亭集序》更重抒情，《畫菊自序》更重說理。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">B. 兩者皆為自序，但《蘭亭集序》旨在記錄盛會，《畫菊自序》旨在闡述創作理念。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">C. 《蘭亭集序》為詩集序，旨在記錄雅集盛況與抒發生命感懷；《畫菊自序》為書畫自序，旨在藉物自況與彰顯女性自覺。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 2)">D. 兩者皆為追憶往事而作，但《蘭亭集序》感嘆時光流逝，《畫菊自序》緬懷故人。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：C</div>
+        <p><strong>解析：</strong> 《蘭亭集序》是王羲之為蘭亭雅集所作詩集而寫的序文，其目的在於記錄這次盛會的歡樂，同時抒發對生命短暫的感懷。而《畫菊自序》是張李德和為自己的畫菊作品集所寫的自序，其目的在於藉由菊花的品格來比喻自身，彰顯女性在困境中堅韌不拔的自覺精神。兩者在序文性質與深層目的上各有側重。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 《蘭亭集序》是為眾人詩作作序，非為他人作品作序；《畫菊自序》是自序。且說理與抒情並非主要差異。</li>
+            <li><strong>(B)</strong> 《蘭亭集序》並非自序，且其目的不僅是記錄盛會，更包含深層的生命感懷。</li>
+            <li><strong>(D)</strong> 《蘭亭集序》是追憶，但《畫菊自序》並非緬懷故人，而是自況。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">30. 綜合判斷：四文本的共同文學價值</div>
+    <div class="question-text">綜合《尋熊記》、《勞山道士》、《蘭亭集序》、《畫菊自序》四篇文本，下列關於其共同文學價值的判斷，何者最為恰當？</div>
+    <div class="options-container">
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">A. 皆以精煉的語言和生動的敘事，展現了各時代的社會風貌與人情世故。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">B. 皆透過對特定事物（黑熊、道士、蘭亭雅集、菊花）的描寫，引導讀者反思生命、自然與人性的深層意義。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">C. 皆為各時代文學體裁的典範之作，對後世的文學創作產生了深遠影響。</button>
+        <button class="option-btn" onclick="checkSingleAnswer(this, 1)">D. 皆以批判現實為主要目的，揭露社會的黑暗面與不公。</button>
+    </div>
+    <div class="feedback-msg"></div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：B</div>
+        <p><strong>解析：</strong> 這四篇文本雖然體裁、時代背景和主題各異，但它們共同的文學價值在於，作者都透過對具體事物或事件的描寫，超越了單純的敘事或抒情，引導讀者對生命（《蘭亭集序》）、自然（《尋熊記》）、人性（《勞山道士》）以及自我價值（《畫菊自序》）進行深層的思考與反思，具有啟發性與哲學意涵。</p>
+        <p><strong>錯誤選項分析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 雖有展現社會風貌，但並非所有文本都以「人情世故」為核心，且「反思深層意義」是更為精確的共同價值。</li>
+            <li><strong>(C)</strong> 雖是典範之作，但「引導讀者反思」是更為核心的文學價值。</li>
+            <li><strong>(D)</strong> 僅《勞山道士》有較強的批判性，其他文本並非以批判現實為主要目的。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="section-title">多選題 (2 題)</div>
+
+<div class="question-card">
+    <div class="question-num">31. 《勞山道士》中「潔持」的深層意涵與王生的對比</div>
+    <div class="question-text">《勞山道士》中，道士要求王生「潔持」，而王生最終學道失敗。下列關於「潔持」的深層意涵，以及王生行為與之對比的敘述，何者正確？ <span class="multi-choice-instruction">(應選 3 項)</span></div>
+    <div class="options-container">
+        <button class="option-btn" onclick="toggleMultiChoice(this)">A. 「潔持」不僅指身體的清淨，更強調心靈的純粹與不受世俗誘惑。</button>
+        <button class="option-btn" onclick="toggleMultiChoice(this)">B. 王生在道觀中無法忍受清苦，反映其未能做到「潔持」中的「耐苦」精神。</button>
+        <button class="option-btn" onclick="toggleMultiChoice(this)">C. 「潔持」要求專心致志於修道，而王生卻心存僥倖，妄圖不勞而獲。</button>
+        <button class="option-btn" onclick="toggleMultiChoice(this)">D. 王生最終因炫耀法術而自食惡果，證明其未能「潔持」對慾望的克制。</button>
+        <button class="option-btn" onclick="toggleMultiChoice(this)">E. 道士對王生「潔持」的要求，是為了考驗其是否具備修仙的天賦。</button>
+    </div>
+    <button class="toggle-explanation" onclick="checkMultiAnswer(this, [0, 1, 3])">提交答案並顯示詳解</button>
+    <div class="feedback-msg"></div>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：A, B, D</div>
+        <p><strong>解析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 「潔持」在道家修煉中，是身心清淨、不受外物干擾、堅守戒律的綜合體現。</li>
+            <li><strong>(B)</strong> 王生在道觀中「耐苦」不足，如「日與同儕樵蘇，苦不堪言」，正是未能做到「潔持」中的堅忍。</li>
+            <li><strong>(C)</strong> 王生心存僥倖，妄圖不勞而獲，這確實是其問題，但「潔持」更側重於對慾望的克制和戒律的遵守，而非單純的專心致志。</li>
+            <li><strong>(D)</strong> 王生學得穿牆術後立即回家炫耀，最終撞牆而踣，正是未能克制虛榮心與炫耀慾，違背了「潔持」的內涵。</li>
+            <li><strong>(E)</strong> 「潔持」是修道的態度和心性要求，而非考驗天賦。道士更看重的是品德與毅力。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="question-card">
+    <div class="question-num">32. 《蘭亭集序》中王羲之對生命與時間的感悟</div>
+    <div class="question-text">《蘭亭集序》中，王羲之對生命與時間的感悟，下列敘述何者正確？ <span class="multi-choice-instruction">(應選 3 項)</span></div>
+    <div class="options-container">
+        <button class="option-btn" onclick="toggleMultiChoice(this)">A. 透過「仰觀宇宙之大，俯察品類之盛」，體悟到生命的渺小與短暫。</button>
+        <button class="option-btn" onclick="toggleMultiChoice(this)">B. 認為人生如白駒過隙，應及時行樂，不必為未來憂慮。</button>
+        <button class="option-btn" onclick="toggleMultiChoice(this)">C. 雖知「死生亦大矣」，但仍無法擺脫對「脩短隨化，終期於盡」的悲痛。</button>
+        <button class="option-btn" onclick="toggleMultiChoice(this)">D. 藉由「後之視今，亦猶今之視昔」，表達對歷史循環與生命無常的深沉思考。</button>
+        <button class="option-btn" onclick="toggleMultiChoice(this)">E. 批判莊子「一死生、齊彭殤」的觀點，認為生死之間存在本質差異。</button>
+    </div>
+    <button class="toggle-explanation" onclick="checkMultiAnswer(this, [0, 2, 3])">提交答案並顯示詳解</button>
+    <div class="feedback-msg"></div>
+    <div class="explanation">
+        <div class="explanation-title">✓ 正確答案：A, C, D</div>
+        <p><strong>解析：</strong></p>
+        <ul>
+            <li><strong>(A)</strong> 王羲之從廣闊的宇宙與豐富的萬物中，反觀人類生命的有限與渺小。</li>
+            <li><strong>(B)</strong> 王羲之雖有「樂」的感受，但最終仍轉為「痛」與「悲」，並非不必憂慮，而是對生命有限的無奈。</li>
+            <li><strong>(C)</strong> 他理性上知道生死是自然規律，但情感上仍無法接受生命終將消逝的悲劇。</li>
+            <li><strong>(D)</strong> 這句話表達了對時間流逝、世代交替的深沉感悟，將個人的生命體驗提升到歷史的高度。</li>
+            <li><strong>(E)</strong> 王羲之對莊子思想是「有保留」的批判，他理性上理解「一死生」的道理，但情感上無法超脫，並非完全否定其觀點。</li>
+        </ul>
+    </div>
+</div>
+
+<div class="section-title">混合/簡答題 (1 題)</div>
+
+<div class="question-card">
+    <div class="question-num">33. 筆法差異比較</div>
+    <div class="question-text">請閱讀以下兩段文字節錄，並比較黃美秀《尋熊記》與張李德和《畫菊自序》在表達個人志向或理念時的筆法差異，至少從三個面向進行分析，並舉例說明。<br><br>
+    <strong>節錄一：《尋熊記》</strong><br>
+    「我常常在想，黑熊的生存，其實是臺灣這塊土地健康與否的指標。當我們看見黑熊在山林中自由自在地活動，那代表著牠們的棲地是完整的，食物是充足的，人類的干擾是有限的。而我的工作，幾就是盡力去理解牠們，保護牠們，讓牠們能夠繼續在這片土地上繁衍。這不僅是為了黑熊，更是為了我們自己，為了臺灣的未來。」<br><br>
+    <strong>節錄二：《畫菊自序》</strong><br>
+    「余性愛菊，尤喜其傲霜獨立，不與百花爭豔。每當秋風蕭瑟，群芳凋零之際，唯菊獨放，其堅貞之姿，足以勵人。余雖一介女流，然志存高遠，不甘隨波逐流。故每畫一菊，必傾注心力，冀其能傳達吾輩女性之堅毅，不讓鬚眉之氣概。」</div>
+    <button class="toggle-explanation" onclick="toggleExp(this)">顯示詳解</button>
+    <div class="explanation">
+        <div class="explanation-title">參考答案：</div>
+        <p><strong>筆法差異分析：</strong></p>
+        <p>1.  <strong>表達方式與視角：</strong></p>
+        <ul>
+            <li><strong>《尋熊記》 (黃美秀)</strong>：採用<strong>現代自然書寫</strong>的筆法，以<strong>科學研究者</strong>的視角，結合<strong>親身觀察與理性分析</strong>。她從黑熊的生存狀態切入，將其與「臺灣土地健康」的宏觀議題連結，透過對生態系統的理解，闡述其保育理念與個人使命。語言風格較為<strong>平實、客觀，帶有科普教育的意味</strong>，但字裡行間仍流露對生命的關懷。例如：「黑熊的生存，其實是臺灣這塊土地健康與否的指標。」此句即以科學觀察為基礎，提出宏觀判斷。
+            <li><strong>《畫菊自序》 (張李德和)</strong>：採用<strong>傳統詠物自況</strong>的筆法，以<strong>古典文人</strong>的視角，透過<strong>象徵與比喻</strong>來表達個人志向。她將「菊花」的「傲霜獨立、堅貞不屈」等品格，與自身「志存高遠、不甘隨波逐流」的女性自覺相連結。語言風格較為<strong>典雅、含蓄，充滿古典詩文的韻味</strong>，藉由描寫物象來抒發內在情志。例如：「唯菊獨放，其堅貞之姿，足以勵人。」此句即以菊花象徵自身品格。
+        </ul>
+        <p>2.  <strong>理念傳達的側重點：</strong></p>
+        <ul>
+            <li><strong>《尋熊記》 (黃美秀)</strong>：其理念傳達側重於<strong>生態保育的實踐與社會責任</strong>。她強調的是「理解、保護」黑熊的具體行動，並將此行動提升到「為了臺灣的未來」的高度，具有<strong>公共性與行動導向</strong>。她的志向是透過科學研究與大眾教育，推動環境永續發展。例如：「我的工作，就是盡力去理解牠們，保護牠們，讓牠們能夠繼續在這片土地上繁衍。這不僅是為了黑熊，更是為了我們自己，為了臺灣的未來。」明確指出其行動與社會責任。
+            <li><strong>《畫菊自序》 (張李德和)</strong>：其理念傳達側重於<strong>個人精神層面的自我期許與女性價值</strong>的彰顯。她透過畫菊來「勵人」，尤其是「吾輩女性」，表達在傳統社會框架下，女性仍能擁有「堅毅、不讓鬚眉」的氣概，具有<strong>個人修養與性別意識</strong>。她的志向是透過藝術創作，展現女性的才華與精神獨立。例如：「冀其能傳達吾輩女性之堅毅，不讓鬚眉之氣概。」直接點出為女性發聲的意圖。
+        </ul>
+        <p>3.  <strong>語言風格與情感表達：</strong></p>
+        <ul>
+            <li><strong>《尋熊記》 (黃美秀)</strong>：語言風格較為<strong>直接、理性，但又不失溫暖與真誠</strong>。情感表達是內斂而深沉的，透過對黑熊命運的關懷，自然流露出對生命的尊重與對環境的憂慮。例如：「我常常在想...」開篇即以第一人稱的思考，拉近與讀者的距離，傳達其真摯情感。
+            <li><strong>《畫菊自序》 (張李德和)</strong>：語言風格較為<strong>典雅、含蓄，富有古典美</strong>。情感表達是藉由對菊花的描寫間接抒發，將個人情志寄託於物象之中，展現一種內斂而堅定的情懷。例如：「余雖一介女流，然志存高遠，不甘隨波逐流。」此句雖直接表志，但整體仍透過詠物來烘托。
+        </ul>
+        <p><strong>總結：</strong></p>
+        <p>黃美秀的筆法更具現代性與科學性，直接從生態問題出發，呼籲具體行動；張李德和的筆法則延續古典傳統，藉由詠物來含蓄地表達個人在特定時代背景下的自我期許與女性意識。兩者雖表達方式不同，但都展現了作者對其所關懷事物或自身價值的深刻投入與執著。</p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>高中專業國文模擬測驗 © 2026 | 嚴格且具鑑別度的教學工具</p>
+    <p>祝您學習順利！</p>
+</div>
+
+<script>
+    function checkSingleAnswer(btn, correctIndex) {
+        const card = btn.closest(".question-card");
+        const buttons = card.querySelectorAll(".option-btn");
+        const feedback = card.querySelector(".feedback-msg");
+        const explanationBtn = card.querySelector(".toggle-explanation");
+        const explanation = card.querySelector(".explanation");
+
+        // Disable all buttons after selection
+        buttons.forEach(b => b.disabled = true);
+
+        // Get the index of clicked button
+        let clickedIndex = -1;
+        buttons.forEach((b, idx) => {
+            if (b === btn) clickedIndex = idx;
+        });
+
+        if (clickedIndex === correctIndex) {
+            btn.classList.add("selected-correct");
+            if (feedback) {
+                feedback.textContent = "✓ 正確！";
+                feedback.classList.add("correct");
+                feedback.classList.remove("wrong");
+                feedback.style.display = "block";
+            }
+        } else {
+            btn.classList.add("selected-wrong");
+            buttons[correctIndex].classList.add("show-correct"); // Highlight correct answer
+            if (feedback) {
+                feedback.textContent = "✗ 錯誤！";
+                feedback.classList.add("wrong");
+                feedback.classList.remove("correct");
+                feedback.style.display = "block";
+            }
+        }
+        // Automatically show explanation
+        if (explanation && explanationBtn) {
+            explanation.classList.add("show");
+            explanationBtn.textContent = "隱藏詳解";
+        }
+    }
+
+    function toggleMultiChoice(btn) {
+        btn.classList.toggle("selected"); // Toggle 'selected' class for visual feedback
+    }
+
+    function checkMultiAnswer(submitBtn, correctIndices) {
+        const card = submitBtn.closest(".question-card");
+        const buttons = card.querySelectorAll(".option-btn");
+        const feedback = card.querySelector(".feedback-msg");
+        const explanationBtn = card.querySelector(".toggle-explanation");
+        const explanation = card.querySelector(".explanation");
+
+        // Disable all buttons and the submit button
+        buttons.forEach(b => b.disabled = true);
+        submitBtn.disabled = true;
+
+        let selectedIndices = [];
+        buttons.forEach((b, idx) => {
+            if (b.classList.contains("selected")) {
+                selectedIndices.push(idx);
+            }
+        });
+
+        let isCorrect = true;
+        // Check if the number of selected options matches the number of correct options
+        if (selectedIndices.length !== correctIndices.length) {
+            isCorrect = false;
+        } else {
+            // Check if all selected options are correct options
+            for (let i = 0; i < correctIndices.length; i++) {
+                if (!selectedIndices.includes(correctIndices[i])) {
+                    isCorrect = false;
+                    break;
+                }
+            }
+        }
+
+        if (isCorrect) {
+            selectedIndices.forEach(idx => buttons[idx].classList.add("selected-correct"));
+            if (feedback) {
+                feedback.textContent = "✓ 正確！";
+                feedback.classList.add("correct");
+                feedback.classList.remove("wrong");
+                feedback.style.display = "block";
+            }
+        } else {
+            // Mark selected wrong answers as red
+            selectedIndices.forEach(idx => {
+                if (!correctIndices.includes(idx)) {
+                    buttons[idx].classList.add("selected-wrong");
+                }
+            });
+            if (feedback) {
+                feedback.textContent = "✗ 錯誤！";
+                feedback.classList.add("wrong");
+                feedback.classList.remove("correct");
+                feedback.style.display = "block";
+            }
+        }
+
+        // Always highlight all correct answers in green
+        correctIndices.forEach(idx => buttons[idx].classList.add("show-correct"));
+
+        // Automatically show explanation
+        if (explanation && explanationBtn) {
+            explanation.classList.add("show");
+            explanationBtn.textContent = "隱藏詳解";
+        }
+    }
+
+    function toggleExp(btn) {
+        const card = btn.closest(".question-card");
+        const exp = card.querySelector(".explanation");
+
+        if (exp.classList.contains("show")) {
+            exp.classList.remove("show");
+            btn.textContent = "顯示詳解";
+        } else {
+            exp.classList.add("show");
+            btn.textContent = "隱藏詳解";
+        }
+    }
+</script>
+
+</body>
+  </html>
+  
